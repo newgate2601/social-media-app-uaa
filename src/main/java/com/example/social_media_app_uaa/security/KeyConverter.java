@@ -1,4 +1,4 @@
-package com.example.social_media_app_uaa.token;
+package com.example.social_media_app_uaa.security;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -18,8 +18,9 @@ public class KeyConverter {
         byte[] decodedKey = Base64.getDecoder().decode(publicKeyStr);
         X509EncodedKeySpec keySpec = new X509EncodedKeySpec(decodedKey);
         KeyFactory keyFactory = KeyFactory.getInstance("RSA");
+        RSAPublicKey rsaPublicKey = (RSAPublicKey) keyFactory.generatePublic(keySpec);
         log.error("Public Key: " + publicKeyStr);
-        return (RSAPublicKey) keyFactory.generatePublic(keySpec);
+        return rsaPublicKey;
     }
 
     public static RSAPrivateKey getPrivateKeyFromString(String privateKeyStr) throws Exception {
@@ -29,7 +30,8 @@ public class KeyConverter {
         byte[] decodedKey = Base64.getDecoder().decode(privateKeyStr);
         PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(decodedKey);
         KeyFactory keyFactory = KeyFactory.getInstance("RSA");
+        RSAPrivateKey rsaPrivateKey = (RSAPrivateKey) keyFactory.generatePrivate(keySpec);
         log.error("Private Key: " + privateKeyStr);
-        return (RSAPrivateKey) keyFactory.generatePrivate(keySpec);
+        return rsaPrivateKey;
     }
 }

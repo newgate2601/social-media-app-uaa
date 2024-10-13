@@ -1,20 +1,26 @@
-package com.example.social_media_app_uaa.token;
+package com.example.social_media_app_uaa.security;
 
 import com.example.social_media_app_uaa.common.Constants;
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.oauth2.core.OAuth2Token;
+import org.springframework.security.oauth2.jwt.JwtDecoder;
+import org.springframework.security.oauth2.jwt.JwtEncoder;
+import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.oauth2.server.authorization.token.*;
 
+import java.security.Security;
 import java.util.UUID;
 
 @Configuration
 public class TokenGeneratorBeans {
+
     @Bean
     public OAuth2TokenGenerator<? extends OAuth2Token> tokenGenerator() {
         NimbusJwtEncoder jwtEncoder = new NimbusJwtEncoder(jwkSource());
@@ -30,6 +36,20 @@ public class TokenGeneratorBeans {
     }
 
     @Bean
+    public JwtEncoder jwtEncoder() throws Exception {
+        return new NimbusJwtEncoder(jwkSource());
+    }
+
+    @Bean
+    public JwtDecoder jwtDecoder() throws Exception {
+        return NimbusJwtDecoder.withPublicKey(
+                KeyConverter.getPublicKeyFromString(
+                        Constants.PUBLIC_KEY
+                )
+        ).build();
+    }
+
+    @Bean
     public JWKSource<SecurityContext> jwkSource() {
         RSAKey rsaKey = getRSA();
         JWKSet jwkSet = new JWKSet(rsaKey);
@@ -37,6 +57,7 @@ public class TokenGeneratorBeans {
     }
 
     private static RSAKey getRSA() {
+        Security.addProvider(new BouncyCastleProvider());
         try {
             return new RSAKey.Builder(
                     KeyConverter.getPublicKeyFromString(
