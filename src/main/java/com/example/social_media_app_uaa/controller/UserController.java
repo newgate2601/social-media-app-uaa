@@ -5,6 +5,8 @@ import com.example.social_media_app_uaa.dto.ChangeInfoUserRequest;
 import com.example.social_media_app_uaa.dto.TokenResponse;
 import com.example.social_media_app_uaa.dto.UserOutputV2;
 import com.example.social_media_app_uaa.dto.UserRequest;
+import com.example.social_media_app_uaa.entity.UserEntity;
+import com.example.social_media_app_uaa.repository.UserRepository;
 import com.example.social_media_app_uaa.service.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -17,6 +19,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 // https://blogs.perficient.com/2020/07/27/requestbody-and-multipart-on-spring-boot/
 @RestController
 @RequestMapping("/api/v1/user")
@@ -24,6 +28,13 @@ import org.springframework.web.multipart.MultipartFile;
 @CrossOrigin
 public class UserController {
     private final UserService userService;
+    private final UserRepository userRepository;
+
+    @Operation(summary = "Lấy danh sách user dựa vào ids")
+    @GetMapping("/tiny/list")
+        public List<UserEntity> getUsersBy(@RequestParam List<Long> ids){
+        return userRepository.findAllByIdIn(ids);
+    }
 
     @Operation(summary = "Lấy thông tin cá nhân")
     @GetMapping

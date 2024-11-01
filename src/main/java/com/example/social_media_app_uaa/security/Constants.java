@@ -1,4 +1,4 @@
-package com.example.social_media_app_uaa.common;
+package com.example.social_media_app_uaa.security;
 
 public class Constants {
     public static final String PUBLIC_KEY = "-----BEGIN PUBLIC KEY-----\n" +

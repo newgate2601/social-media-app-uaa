@@ -1,6 +1,5 @@
 package com.example.social_media_app_uaa.security;
 
-import com.example.social_media_app_uaa.common.Constants;
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.JWKSource;

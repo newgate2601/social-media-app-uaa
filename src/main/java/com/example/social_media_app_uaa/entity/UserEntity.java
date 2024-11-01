@@ -2,7 +2,6 @@ package com.example.social_media_app_uaa.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-
 import java.time.OffsetDateTime;
 
 @Entity
