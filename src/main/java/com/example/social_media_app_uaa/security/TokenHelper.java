@@ -26,6 +26,8 @@ public class TokenHelper {
                 .subject(userEntity.getUsername())
                 .claim("user_id", userEntity.getId())
                 .claim("username", userEntity.getUsername())
+                .claim("full_name", userEntity.getFullName())
+                .claim("image_url", userEntity.getImageUrl())
                 .build();
 
         Jwt jwt = jwtEncoder.encode(JwtEncoderParameters.from(claims));
