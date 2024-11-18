@@ -3,6 +3,7 @@ package com.example.social_media_app_uaa.service;
 import com.example.social_media_app_uaa.base.filter.Filter;
 import com.example.social_media_app_uaa.common.Common;
 import com.example.social_media_app_uaa.dto.ChangeInfoUserRequest;
+import com.example.social_media_app_uaa.dto.UserLogin;
 import com.example.social_media_app_uaa.dto.UserOutputV2;
 import com.example.social_media_app_uaa.dto.UserRequest;
 import com.example.social_media_app_uaa.entity.UserEntity;
@@ -80,13 +81,12 @@ public class UserService {
         UserEntity userEntity = userMapper.getEntityFromRequest(signUpRequest);
         userEntity.setImageUrl(Common.DEFAULT_IMAGE_URL);
         UUID uuid = UUID.randomUUID();
-        userEntity.setFullName(Common.USER + "_" + uuid);
         userRepository.save(userEntity);
         return tokenHelper.generateToken(userEntity);
     }
 
     @Transactional(readOnly = true)
-    public String logIn(UserRequest logInRequest) {
+    public String logIn(UserLogin logInRequest) {
         UserEntity userEntity = userRepository.findByUsername(logInRequest.getUsername());
         if (Objects.isNull(userEntity)) {
             throw new RuntimeException(Common.INCORRECT_PASSWORD);
