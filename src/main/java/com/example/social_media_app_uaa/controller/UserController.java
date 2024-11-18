@@ -1,10 +1,7 @@
 package com.example.social_media_app_uaa.controller;
 
 import com.example.social_media_app_uaa.common.Common;
-import com.example.social_media_app_uaa.dto.ChangeInfoUserRequest;
-import com.example.social_media_app_uaa.dto.TokenResponse;
-import com.example.social_media_app_uaa.dto.UserOutputV2;
-import com.example.social_media_app_uaa.dto.UserRequest;
+import com.example.social_media_app_uaa.dto.*;
 import com.example.social_media_app_uaa.entity.UserEntity;
 import com.example.social_media_app_uaa.repository.UserRepository;
 import com.example.social_media_app_uaa.service.UserService;
@@ -74,7 +71,7 @@ public class UserController {
 
     @Operation(summary = "Đăng nhập")
     @PostMapping("log-in")
-    public ResponseEntity logIn(@RequestBody @Valid UserRequest logInRequest){
+    public ResponseEntity logIn(@RequestBody @Valid UserLogin logInRequest){
         return new ResponseEntity(new TokenResponse(userService.logIn(logInRequest)), HttpStatus.OK);
     }
 }
