@@ -13,6 +13,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springdoc.core.annotations.ParameterObject;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -25,10 +28,17 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/user")
 @AllArgsConstructor
-@CrossOrigin
 public class UserController {
     private final UserService userService;
     private final UserRepository userRepository;
+
+    @Operation(summary = "Lấy danh sách user dựa vào")
+    @GetMapping("/tiny-2/list")
+    public Page<UserEntity> getUsersBy(@RequestParam(required = false) String search,
+                                       @RequestParam(required = false) List<Long> ids,
+                                       @ParameterObject Pageable pageable){
+        return userService.getUsersBy(search, ids, pageable);
+    }
 
     @Operation(summary = "Lấy danh sách user dựa vào ids")
     @GetMapping("/tiny/list")
