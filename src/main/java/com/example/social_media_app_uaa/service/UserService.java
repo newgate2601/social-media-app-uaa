@@ -81,6 +81,7 @@ public class UserService {
         UserEntity userEntity = userMapper.getEntityFromRequest(signUpRequest);
         userEntity.setImageUrl(Common.DEFAULT_IMAGE_URL);
         UUID uuid = UUID.randomUUID();
+        userEntity.setFullName(Common.USER + "_" + uuid);
         userRepository.save(userEntity);
         return tokenHelper.generateToken(userEntity);
     }
