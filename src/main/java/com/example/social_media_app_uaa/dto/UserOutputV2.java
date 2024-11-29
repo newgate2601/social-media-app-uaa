@@ -17,4 +17,7 @@ public class UserOutputV2 {
     private String imageUrl;
     private OffsetDateTime birthday;
     private String gender;
+    private String work;
+    private String description;
+    private String live;
 }
