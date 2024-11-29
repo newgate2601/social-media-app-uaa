@@ -75,13 +75,11 @@ public class UserService {
 
     @Transactional
     public void changeUserInformation(ChangeInfoUserRequest changeInfoUserRequest,
-                                      String accessToken,
-                                      MultipartFile multipartFile) {
+                                      String accessToken) {
         Long userId = tokenHelper.getUserIdFromToken(accessToken);
         UserEntity userEntity = getUserBy(userId);
         userMapper.updateEntityFromInput(userEntity, changeInfoUserRequest);
         userEntity.setBirthday(OffsetDateTime.parse(changeInfoUserRequest.getBirthdayString()));
-//        userEntity.setImageUrl(CloudinaryHelper.uploadAndGetFileUrl(multipartFile));
         userRepository.save(userEntity);
     }
 

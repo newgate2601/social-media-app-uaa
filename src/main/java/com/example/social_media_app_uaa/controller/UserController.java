@@ -59,16 +59,10 @@ public class UserController {
 
     // 2024-03-20T17:04:52.755Z
     @Operation(summary = "Thay đổi thông tin cá nhân")
-    @PostMapping(value = "/change-user-information", consumes = {
-            MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE
-    })
-    public void changeUserInformation(@RequestPart("new_user_info") @Valid String changeInfoUserRequestString,
-                                      @RequestHeader(value = Common.AUTHORIZATION) String accessToken,
-                                      @RequestPart("image") MultipartFile multipartFile) throws JsonProcessingException {
-        ChangeInfoUserRequest changeInfoUserRequest;
-        ObjectMapper objectMapper = new ObjectMapper();
-        changeInfoUserRequest = objectMapper.readValue(changeInfoUserRequestString, ChangeInfoUserRequest.class);
-        userService.changeUserInformation(changeInfoUserRequest, accessToken, multipartFile);
+    @PostMapping(value = "/change-user-information")
+    public void changeUserInformation(@RequestBody @Valid ChangeInfoUserRequest changeInfoUserRequest,
+                                      @RequestHeader(value = Common.AUTHORIZATION) String accessToken) {
+        userService.changeUserInformation(changeInfoUserRequest, accessToken);
     }
 
     @Operation(summary = "Đăng ký tài khoản")
