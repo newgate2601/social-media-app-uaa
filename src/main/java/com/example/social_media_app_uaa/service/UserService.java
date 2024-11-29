@@ -13,15 +13,18 @@ import com.example.social_media_app_uaa.security.TokenHelper;
 import jakarta.persistence.EntityManager;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.OffsetDateTime;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -36,6 +39,16 @@ public class UserService {
     private final TokenHelper tokenHelper;
     private final PasswordEncoder passwordEncoder;
     private final EntityManager entityManager;
+
+    @Transactional(readOnly = true)
+    public Page<UserEntity> getUsers2By(String search, List<Long> notIds, Pageable pageable){
+        return Filter.builder(UserEntity.class, entityManager)
+                .search()
+                .isContain("fullName", search)
+                .filter()
+                .isNotIn("id", notIds)
+                .getPage(pageable);
+    }
 
     @Transactional(readOnly = true)
     public Page<UserEntity> getUsersBy(String search, List<Long> ids, Pageable pageable) {
@@ -80,7 +93,6 @@ public class UserService {
         signUpRequest.setPassword(passwordEncoder.encode(signUpRequest.getPassword()));
         UserEntity userEntity = userMapper.getEntityFromRequest(signUpRequest);
         userEntity.setImageUrl(Common.DEFAULT_IMAGE_URL);
-        UUID uuid = UUID.randomUUID();
         userRepository.save(userEntity);
         return tokenHelper.generateToken(userEntity);
     }

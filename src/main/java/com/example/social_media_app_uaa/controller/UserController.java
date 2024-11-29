@@ -29,6 +29,14 @@ public class UserController {
     private final UserService userService;
     private final UserRepository userRepository;
 
+    @Operation(summary = "Api hỗ trợ lấy danh sách người dùng trên app")
+    @GetMapping("/tiny-3/list")
+    public Page<UserEntity> getUsers2By(@RequestParam(required = false) String search,
+                                       @RequestParam(required = false) List<Long> notIds,
+                                       @ParameterObject Pageable pageable){
+        return userService.getUsers2By(search, notIds, pageable);
+    }
+
     @Operation(summary = "Lấy danh sách user dựa vào")
     @GetMapping("/tiny-2/list")
     public Page<UserEntity> getUsersBy(@RequestParam(required = false) String search,
