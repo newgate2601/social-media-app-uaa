@@ -15,6 +15,7 @@ public class UserOutputV2 {
     private Long id;
     private String fullName;
     private String imageUrl;
+    private String imageBackground;
     private OffsetDateTime birthday;
     private String gender;
     private String work;

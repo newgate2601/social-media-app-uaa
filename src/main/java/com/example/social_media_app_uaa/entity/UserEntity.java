@@ -24,4 +24,5 @@ public class UserEntity {
     private String work;
     private String description;
     private String live;
+    private String imageBackground;
 }
