@@ -17,4 +17,5 @@ public class ChangeInfoUserRequest {
     private String description;
     private String live;
     private String imageUrl;
+    private String imageBackground;
 }

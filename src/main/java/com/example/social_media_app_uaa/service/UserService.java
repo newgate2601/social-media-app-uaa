@@ -79,7 +79,9 @@ public class UserService {
         Long userId = tokenHelper.getUserIdFromToken(accessToken);
         UserEntity userEntity = getUserBy(userId);
         userMapper.updateEntityFromInput(userEntity, changeInfoUserRequest);
-        userEntity.setBirthday(OffsetDateTime.parse(changeInfoUserRequest.getBirthdayString()));
+        if(Objects.nonNull(changeInfoUserRequest.getBirthdayString())){
+            userEntity.setBirthday(OffsetDateTime.parse(changeInfoUserRequest.getBirthdayString()));
+        }
         userRepository.save(userEntity);
     }
 
