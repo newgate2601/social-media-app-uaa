@@ -71,6 +71,7 @@ public class UserService {
         Long userId = tokenHelper.getUserIdFromToken(accessToken);
         UserEntity userEntity = getUserBy(userId);
         return userMapper.getOutputFromEntity(userEntity);
+
     }
 
     @Transactional
