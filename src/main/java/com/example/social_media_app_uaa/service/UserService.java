@@ -48,6 +48,7 @@ public class UserService {
                 .filter()
                 .isNotIn("id", notIds)
                 .getPage(pageable);
+
     }
 
     @Transactional(readOnly = true)
@@ -71,7 +72,6 @@ public class UserService {
         Long userId = tokenHelper.getUserIdFromToken(accessToken);
         UserEntity userEntity = getUserBy(userId);
         return userMapper.getOutputFromEntity(userEntity);
-
     }
 
     @Transactional
