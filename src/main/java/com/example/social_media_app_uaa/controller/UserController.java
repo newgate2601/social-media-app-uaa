@@ -65,6 +65,7 @@ public class UserController {
         userService.changeUserInformation(changeInfoUserRequest, accessToken);
     }
 
+
     @Operation(summary = "Đăng ký tài khoản")
     @PostMapping("sign-up")
     public ResponseEntity signUp(@RequestBody UserRequest signUpRequest){
