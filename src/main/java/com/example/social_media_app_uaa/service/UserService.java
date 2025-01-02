@@ -82,6 +82,7 @@ public class UserService {
         userMapper.updateEntityFromInput(userEntity, changeInfoUserRequest);
         userEntity.setBirthday(OffsetDateTime.parse(changeInfoUserRequest.getBirthdayString()));
         userRepository.save(userEntity);
+
     }
 
     @Transactional
